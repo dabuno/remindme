@@ -66,7 +66,8 @@
                             <tbody>
                                 @foreach ($facts as $fact)
                                     <tr>
-                                        <td class="table-text"><div>{!! nl2br(e($fact->content)) !!}</div></td>
+                                        <td class="table-text"><div>{!! nl2br( preg_replace('/&lt;(em|strong|b|i)&gt;(.*)&lt;\/(em|strong|b|i)&gt;/', '<$1>$2</$1>', e($fact->content) ) ) !!}</div></td>
+
 
                                         <!-- Task Delete Button -->
                                         <td>

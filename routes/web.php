@@ -27,10 +27,11 @@ Route::get("/mail", function() {
             });
 });
 
-Route::get("/random", function() {
+Route::get("/random/{id?}", function($id = null) {
     $count = Fact::count();
 
-    $ids = Fact::pluck("id");
+
+    $ids = $id ? [$id] : Fact::pluck("id");
     $random = random_int(0, count($ids) - 1);
 
     Mail::queue('facts.daily', ['fact' => Fact::findOrFail($ids[$random])], function ($m) {
@@ -48,7 +49,7 @@ Route::get("/random", function() {
  */
 Route::get('/', function () {
     return view('facts', [
-        'facts' => Fact::orderBy('created_at', 'asc')->get()
+        'facts' => Fact::orderBy('created_at', 'desc')->get()
     ]);
 });
 /**
